@@ -1,10 +1,5 @@
-# Renode setup
-The Raspberry Pico needs configuration files for Renode to work properly.
+# Observation
 
-* On MacOS, the installation location is `/Applications/Renode.app/Contents/MacOs`
-* On Linux, the location for Debian, Fedora, and Arch is `/opt/renode`
-* On Windows, the location is `C://Program Files/Renode`
+![BLE Output](https://github.com/uofu-emb/2024-lab11-thomas-varun-shem/blob/dev/Images/BLE_Communication.png)
 
-To add the Pico configuration files:
-1. Copy `rp2040_spinlock.py` and `rp2040_divider.py` to the `scripts/pydev` directory of your Renode installation.
-1. Copy `rpi_pico_rp2040_w.repl` to the `platforms/cpus` directory.
+The image above demonstrates successful establishment of BLE communication. The system logs the cumulative number of connections initiated since BLE activation. Additionally, a new service has been implemented to monitor and display the core temperature. The core temperature feature is triggered and executed only upon being read through the connected mobile application.
