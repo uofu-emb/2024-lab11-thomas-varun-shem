@@ -63,7 +63,7 @@
 #define HEARTBEAT_PERIOD_MS 1000
 
 #define TEMP_TASK_PRIORITY (tskIDLE_PRIORITY + 3UL)
-static float temp_measurement;
+static float core_temp;
 static TaskHandle_t temp_task;
 
 /* @section Main Application Setup
@@ -231,12 +231,14 @@ static uint16_t att_read_callback(hci_con_handle_t connection_handle, uint16_t a
     }  
     
     if (att_handle == ATT_CHARACTERISTIC_ORG_BLUETOOTH_CHARACTERISTIC_TEMPERATURE_01_VALUE_HANDLE) {
-        printf("Core temperature: %0.2f\n", temp_measurement);
+        if(buffer != NULL){
+            printf("Core temperature: %0.2f\n", core_temp);
+        }
         uint16_t data = 0;
-        data = (uint16_t)(temp_measurement*100);
+        data = (uint16_t)(core_temp*100);
         return att_read_callback_handle_little_endian_16(data, offset, buffer, buffer_size);
     } 
-    
+
     return 0;
 }
 /* LISTING_END */
@@ -273,7 +275,7 @@ static int att_write_callback(hci_con_handle_t connection_handle, uint16_t att_h
 void temperature_task()
 {
     while (true) {
-        temp_measurement = temperature_poll();
+        core_temp = temperature_poll();
         vTaskDelay(100);
     }
 }
